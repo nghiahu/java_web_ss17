@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Đăng nhập</h1>
+<div th:if="${error}" th:text="${error}"></div>
+<form action="login-save" method="post" th:object="${customer}">
+    <label>Tên đăng nhập</label>
+    <input type="text" th:field="*{username}">
+    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+
+    <label>Mật khẩu</label>
+    <input type="text" th:field="*{password}">
+    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+
+    <input type="submit" value="Đăng nhập">
+</form>
+</body>
+</html>

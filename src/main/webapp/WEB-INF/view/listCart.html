@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Giỏ hàng</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Tên sản phẩm</th>
+        <th>Giá</th>
+        <th>Số lượng</th>
+        <th>Tổng</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${cartItems}">
+        <td th:text="${item.product.productName}"></td>
+        <td th:text="${item.product.price} + ' VND'"></td>
+        <td>
+            <form th:action="@{/cart/update}" method="post">
+                <input type="hidden" name="cartId" th:value="${item.id}" />
+                <input type="number" name="quantity" min="1" th:value="${item.quantity}" />
+                <button type="submit">Cập nhật</button>
+            </form>
+        </td>
+        <td th:text="${item.product.price * item.quantity} + ' VND'"></td>
+        <td>
+            <a th:href="@{/cart/delete(cartId=${item.id})}">Xóa</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<h3>Tổng giá trị: <span th:text="${total} + ' VND'"></span></h3>
+
+<a href="/home"><button>Tiếp tục mua hàng</button></a>
+</body>
+</html>
