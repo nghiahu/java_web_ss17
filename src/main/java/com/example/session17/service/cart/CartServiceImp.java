@@ -32,4 +32,9 @@ public class CartServiceImp implements CartService {
     public void deleteItem(Long cartId) {
         cartRepository.deleteItem(cartId);
     }
+
+    @Override
+    public void removeCart(Long userId) {
+        cartRepository.removeCart(userId);
+    }
 }

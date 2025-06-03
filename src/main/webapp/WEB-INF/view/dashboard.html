@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body th:fragment="content">
+<h1>Dashboard Thống Kê</h1>
+<ul>
+    <li>Tổng số khách hàng: <span th:text="${totalCustomer}">0</span></li>
+    <li>Tổng số đơn hàng: <span th:text="${totalOrders}">0</span></li>
+    <li>Tổng số sản phẩm: <span th:text="${totalProduct}">0</span></li>
+    <li>Tổng doanh thu: <span th:text="${revenue}">0</span></li>
+</ul>
+</body>
+</html>

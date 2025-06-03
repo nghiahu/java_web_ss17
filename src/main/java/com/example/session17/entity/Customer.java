@@ -4,11 +4,9 @@ import com.example.session17.model.EnumRole;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 
 @Entity
 public class Customer {
@@ -28,6 +26,9 @@ public class Customer {
     private String phoneNumber;
     private EnumRole role;
     private boolean status;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Orders> orders;
 
     public long getId() {
         return id;

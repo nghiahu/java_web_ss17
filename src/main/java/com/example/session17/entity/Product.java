@@ -1,10 +1,10 @@
 package com.example.session17.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 public class Product {
@@ -17,6 +17,11 @@ public class Product {
     private BigDecimal price;
     private int stock;
     private String image;
+
+    private transient MultipartFile file;
+
+    @OneToMany(mappedBy = "product")
+    private List<OrderDetail> orderDetailList;
 
     public Long getId() {
         return id;
@@ -64,5 +69,21 @@ public class Product {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+
+    public List<OrderDetail> getOrderDetailList() {
+        return orderDetailList;
+    }
+
+    public void setOrderDetailList(List<OrderDetail> orderDetailList) {
+        this.orderDetailList = orderDetailList;
     }
 }

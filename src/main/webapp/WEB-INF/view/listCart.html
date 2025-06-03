@@ -11,6 +11,7 @@
     <thead>
     <tr>
         <th>Tên sản phẩm</th>
+        <th>Hình ảnh</th>
         <th>Giá</th>
         <th>Số lượng</th>
         <th>Tổng</th>
@@ -20,12 +21,16 @@
     <tbody>
     <tr th:each="item : ${cartItems}">
         <td th:text="${item.product.productName}"></td>
+        <td>
+            <img th:src="${item.product.image}" alt="" style="width: 100px;" />
+        </td>
         <td th:text="${item.product.price} + ' VND'"></td>
         <td>
             <form th:action="@{/cart/update}" method="post">
+                <button type="submit" value="0" name="change">-</button>
                 <input type="hidden" name="cartId" th:value="${item.cart.id}" />
-                <input type="number" name="quantity" min="1" th:value="${item.cart.quantity}" />
-                <button type="submit">Cập nhật</button>
+                <input type="number" name="quantity" min="1" th:value="${item.cart.quantity}" readonly/>
+                <button type="submit" value="1" name="change">+</button>
             </form>
         </td>
         <td th:text="${item.product.price * item.cart.quantity} + ' VND'"></td>
@@ -39,5 +44,6 @@
 <h3>Tổng giá trị: <span th:text="${total} + ' VND'"></span></h3>
 
 <a href="/home"><button>Tiếp tục mua hàng</button></a>
+<a href="pay"><button>Thanh toán</button></a>
 </body>
 </html>

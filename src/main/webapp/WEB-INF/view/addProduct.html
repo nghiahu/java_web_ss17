@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Sản Phẩm Mới</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fff;
+            color: #333;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 15px 20px;
+            border: 2px dashed #667eea;
+            border-radius: 12px;
+            background: rgba(102, 126, 234, 0.05);
+            color: #667eea;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .file-input-label:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .file-input-label i {
+            font-size: 1.2rem;
+            margin-right: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        .form-group {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.6s ease forwards;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+        .form-group:nth-child(5) { animation-delay: 0.5s; }
+        .form-group:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>✨ Thêm sản phẩm mới</h2>
+
+    <form th:action="@{/add-product}" th:object="${product}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="form-group">
+            <label for="productName">📦 Tên sản phẩm:</label>
+            <div class="input-with-icon">
+                <input type="text" th:field="*{productName}" id="productName" placeholder="Nhập tên sản phẩm"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="description">📝 Mô tả:</label>
+            <textarea th:field="*{description}" id="description" placeholder="Mô tả chi tiết về sản phẩm..."></textarea>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="price">💰 Giá:</label>
+                <div class="input-with-icon">
+                    <input type="number" th:field="*{price}" id="price" placeholder="0"/>
+                    <span class="input-icon">VNĐ</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="stock">📊 Tồn kho:</label>
+                <div class="input-with-icon">
+                    <input type="number" th:field="*{stock}" id="stock" placeholder="0" min="0"/>
+                    <span class="input-icon">SP</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>🖼️ Hình ảnh:</label>
+            <div class="file-input-wrapper">
+                <input type="file" th:field="*{file}" id="file" accept="image/*"/>
+                <label for="file" class="file-input-label">
+                    📁 Chọn hình ảnh sản phẩm
+                </label>
+            </div>
+        </div>
+
+        <button type="submit">🚀 Thêm sản phẩm</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('file').addEventListener('change', function(e) {
+        const fileName = e.target.files[0]?.name || 'Chọn hình ảnh sản phẩm';
+        document.querySelector('.file-input-label').textContent = `📁 ${fileName}`;
+    });
+    document.getElementById('price').addEventListener('input', function(e) {
+        const value = e.target.value.replace(/\D/g, '');
+        if (value) {
+            e.target.value = parseInt(value).toLocaleString('vi-VN');
+        }
+    });
+</script>
+</body>
+</html>

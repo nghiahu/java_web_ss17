@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="order-save" method="post" th:object="${orderCustomer}">
+    <h1>Nhập thông tin</h1>
+    <label>Tên người nhận</label>
+    <input type="text" th:field="*{name}"/>
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+    <label>Số điện thoại</label>
+    <input type="text" th:field="*{phoneNumber}"/>
+    <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+
+    <label>Địa chỉ nhận hàng</label>
+    <input type="text" th:field="*{address}"/>
+    <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+
+    <input type="submit" value="Đặt hàng">
+</form>
+
+<h1>Thông tin đơn hàng</h1>
+<table>
+    <tr>
+        <th>sản phẩm</th>
+        <th>Hình ảnh</th>
+        <th>Đơn giá</th>
+        <th>Số lượng</th>
+        <th>Tổng tiền</th>
+    </tr>
+    <tr th:each="obj, loop : ${cartItems}">
+        <td th:text="${obj.product.productName}"></td>
+        <td>
+            <img th:src="${obj.product.image}" alt=""/>
+        </td>
+        <td th:text="${obj.product.price}"></td>
+        <td th:text="${obj.cart.quantity}"></td>
+        <td th:text="${obj.cart.quantity*obj.product.price}"></td>
+    </tr>
+</table>
+<h3>Tổng số tiền: <span th:text="${total}"></span></h3>
+</body>
+</html>

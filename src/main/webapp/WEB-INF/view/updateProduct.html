@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cập Nhật Sản Phẩm</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 45px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 650px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #f093fb, #f5576c, #4facfe, #00f2fe);
+            background-size: 300% 100%;
+            animation: gradient 3s ease infinite;
+        }
+
+        @keyframes gradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 35px;
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 28px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 18px 22px;
+            border: 2px solid #e8ecf0;
+            border-radius: 15px;
+            font-size: 1.05rem;
+            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+            background: #fff;
+            color: #333;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #f093fb;
+            box-shadow: 0 0 0 4px rgba(240, 147, 251, 0.15);
+            transform: translateY(-3px);
+            background: #fefefe;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 130px;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: block;
+            width: 100%;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 20px 25px;
+            border: 3px dashed #f093fb;
+            border-radius: 15px;
+            background: rgba(240, 147, 251, 0.08);
+            color: #f093fb;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-weight: 600;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-input-label::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .file-input-label:hover {
+            background: rgba(240, 147, 251, 0.15);
+            border-color: #e84393;
+            transform: translateY(-3px);
+            color: #e84393;
+        }
+
+        .file-input-label:hover::before {
+            left: 100%;
+        }
+
+        .price-stock-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(240, 147, 251, 0.4);
+            background: linear-gradient(135deg, #e84393 0%, #fd79a8 100%);
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:active {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 35px 25px;
+                margin: 15px;
+            }
+
+            .price-stock-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            input[type="text"],
+            input[type="number"],
+            textarea {
+                padding: 16px 20px;
+                font-size: 1rem;
+            }
+        }
+
+        .form-group {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUpFade 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+        .form-group:nth-child(5) { animation-delay: 0.5s; }
+        .form-group:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes slideUpFade {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-weight: 600;
+            pointer-events: none;
+            transition: color 0.3s ease;
+        }
+
+        .input-with-icon input:focus + .input-icon {
+            color: #f093fb;
+        }
+
+        .floating-label {
+            position: relative;
+        }
+
+        .floating-label input,
+        .floating-label textarea {
+            padding-top: 25px;
+        }
+
+        .floating-label label {
+            position: absolute;
+            top: 18px;
+            left: 22px;
+            font-size: 1rem;
+            color: #999;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            background: white;
+            padding: 0 5px;
+        }
+
+        .floating-label input:focus + label,
+        .floating-label input:not(:placeholder-shown) + label,
+        .floating-label textarea:focus + label,
+        .floating-label textarea:not(:placeholder-shown) + label {
+            top: -8px;
+            font-size: 0.85rem;
+            color: #f093fb;
+            font-weight: 600;
+        }
+
+        .success-animation {
+            animation: successPulse 0.6s ease;
+        }
+
+        @keyframes successPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🔄 Cập nhật sản phẩm</h1>
+
+    <form th:action="@{/updateProduct}" th:object="${product}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="form-group">
+            <label for="productName">📦 Tên sản phẩm:</label>
+            <input type="text" th:field="*{productName}" id="productName" placeholder="Nhập tên sản phẩm mới"/>
+        </div>
+
+        <div class="form-group">
+            <label for="description">📝 Mô tả:</label>
+            <textarea th:field="*{description}" id="description" placeholder="Cập nhật mô tả chi tiết về sản phẩm..."></textarea>
+        </div>
+
+        <div class="price-stock-row">
+            <div class="form-group">
+                <label for="price">💰 Giá bán:</label>
+                <div class="input-with-icon">
+                    <input type="number" th:field="*{price}" id="price" placeholder="0"/>
+                    <span class="input-icon">VNĐ</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="stock">📊 Số lượng tồn:</label>
+                <div class="input-with-icon">
+                    <input type="number" th:field="*{stock}" id="stock" placeholder="0" min="0"/>
+                    <span class="input-icon">SP</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>🖼️ Cập nhật hình ảnh:</label>
+            <div class="file-input-wrapper">
+                <input type="file" th:field="*{file}" id="file" accept="image/*"/>
+                <label for="file" class="file-input-label">
+                    📷 Chọn ảnh mới hoặc giữ nguyên ảnh cũ
+                </label>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">💾 Cập nhật sản phẩm</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('file').addEventListener('change', function(e) {
+        const fileName = e.target.files[0]?.name || 'Chọn ảnh mới hoặc giữ nguyên ảnh cũ';
+        const label = document.querySelector('.file-input-label');
+        label.innerHTML = `📷 ${fileName}`;
+        label.classList.add('success-animation');
+        setTimeout(() => {
+            label.classList.remove('success-animation');
+        }, 600);
+    });
+
+    document.getElementById('price').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/[^\d]/g, '');
+        if (value) {
+            e.target.value = new Intl.NumberFormat('vi-VN').format(value);
+        }
+    });
+
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const priceInput = document.getElementById('price');
+        priceInput.value = priceInput.value.replace(/[^\d]/g, '');
+    });
+
+    const inputs = document.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.classList.add('focused');
+        });
+
+        input.addEventListener('blur', function() {
+            this.parentElement.classList.remove('focused');
+        });
+    });
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const submitBtn = document.querySelector('.submit-btn');
+        submitBtn.innerHTML = '⏳ Đang cập nhật...';
+        submitBtn.style.background = 'linear-gradient(135deg, #74b9ff, #0984e3)';
+    });
+</script>
+</body>
+</html>

@@ -37,13 +37,10 @@ public class AuthController {
         if (bindingResult.hasErrors()) {
             return "register";
         }
+        customer.setRole(EnumRole.USER);
+        customer.setStatus(true);
         authService.register(customer);
         return "successRegister";
-    }
-
-    @GetMapping("admin")
-    public String admin() {
-        return "adminPage";
     }
 
     @GetMapping("login")

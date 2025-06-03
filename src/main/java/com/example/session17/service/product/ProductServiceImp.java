@@ -22,4 +22,24 @@ public class ProductServiceImp implements ProductService {
     public Product getProduct(Long id) {
         return productRepositoryImp.getProduct(id);
     }
+
+    @Override
+    public int countProduct() {
+        return productRepositoryImp.countProduct();
+    }
+
+    @Override
+    public void deleteProduct(Long id) {
+        productRepositoryImp.deleteProduct(id);
+    }
+
+    @Override
+    public void updateProduct(Product product) {
+        productRepositoryImp.updateProduct(product);
+    }
+
+    @Override
+    public void addProduct(Product product) {
+        productRepositoryImp.addProduct(product);
+    }
 }

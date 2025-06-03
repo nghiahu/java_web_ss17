@@ -78,12 +78,18 @@ public class CartController {
     @PostMapping("/cart/update")
     public String updateCart(@RequestParam("cartId") Long cartId,
                              @RequestParam("quantity") int quantity,
+                             @RequestParam("change") int change,
                              HttpSession session) {
+
         Customer customer = (Customer) session.getAttribute("loggedInUser");
         if (customer == null) {
             return "redirect:/login";
         }
-
+        if(change == 1) {
+            quantity++;
+        }else if(change == 0 && quantity > 1) {
+            quantity--;
+        }
         cartServiceImp.updateQuantity(cartId, quantity);
         return "redirect:/listCart";
     }

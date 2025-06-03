@@ -35,7 +35,16 @@ public class CartRepositoryImp implements CartRepository {
     public void addToCart(ProductCart productCart) {
         Session session = getSession();
         Transaction tx = session.beginTransaction();
-        session.save(productCart);
+        ProductCart cart = session.createQuery(
+                        "from ProductCart where productId = :pid", ProductCart.class)
+                .setParameter("pid", productCart.getProductId())
+                .uniqueResult();
+        if (cart != null) {
+            cart.setQuantity(cart.getQuantity() + 1);
+            session.update(cart);
+        }else{
+            session.save(productCart);
+        }
         tx.commit();
     }
 
@@ -59,6 +68,17 @@ public class CartRepositoryImp implements CartRepository {
         if (cart != null) {
             session.delete(cart);
         }
+        tx.commit();
+    }
+
+    @Override
+    public void removeCart(Long userId) {
+        Session session = getSession();
+        Transaction tx = session.beginTransaction();
+        session.createQuery("DELETE FROM ProductCart WHERE customerId = :userId")
+                .setParameter("userId", userId)
+                .executeUpdate();
+
         tx.commit();
     }
 }
