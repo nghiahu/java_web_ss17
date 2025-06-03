@@ -23,14 +23,14 @@
         <td th:text="${item.product.price} + ' VND'"></td>
         <td>
             <form th:action="@{/cart/update}" method="post">
-                <input type="hidden" name="cartId" th:value="${item.id}" />
-                <input type="number" name="quantity" min="1" th:value="${item.quantity}" />
+                <input type="hidden" name="cartId" th:value="${item.cart.id}" />
+                <input type="number" name="quantity" min="1" th:value="${item.cart.quantity}" />
                 <button type="submit">Cập nhật</button>
             </form>
         </td>
-        <td th:text="${item.product.price * item.quantity} + ' VND'"></td>
+        <td th:text="${item.product.price * item.cart.quantity} + ' VND'"></td>
         <td>
-            <a th:href="@{/cart/delete(cartId=${item.id})}">Xóa</a>
+            <a th:href="@{/cart/delete(cartId=${item.cart.id})}">Xóa</a>
         </td>
     </tr>
     </tbody>

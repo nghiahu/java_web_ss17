@@ -2,15 +2,12 @@ package com.example.session17.service.cart;
 
 import com.example.session17.entity.ProductCart;
 import com.example.session17.repository.cart.CartRepository;
-import com.example.session17.repository.cart.CartRepositoryImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class CartServiceImp implements CartService {
 
     @Autowired
